@@ -94,7 +94,7 @@ def plot_model(self:Trace):
 
     edge_labels = {}
     for x in self.network.edges:
-        tmp = trace.network.edges[x]
+        tmp = self.network.edges[x]
         edge_labels[x] = f'{str(tmp["FROM_MW"])} MW ' if tmp["FROM_MW"]==tmp["TO_MW"] else f'{str(round(tmp["FROM_MW"],1))} MW / {str(round(tmp["TO_MW"],1))} MW '
 
     nx.draw_networkx_edge_labels(
@@ -182,6 +182,14 @@ def _make_df(self:Trace):
     return self.df
 
 # %% ../00_network.ipynb 25
+@patch
+def process(self:Trace, bus, branch):
+    self._network(bus, branch)
+    self._power()
+    self._matrix()
+    self._make_df()
+
+# %% ../00_network.ipynb 26
 @patch
 def plot_node(self:Trace, node:str):
     fig = plt.figure(1, figsize=(20, 10), dpi=60)
